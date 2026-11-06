@@ -69,10 +69,18 @@ npx shadcn@latest add <이름>             # shadcn 컴포넌트 추가
 - `prd-generator` 에이전트로 `docs/PRD.md` 작성 (기존 라우트·인증·메뉴 기준, 데이터 모델은 Notion 데이터베이스 속성)
 - 이어서 `prd-validator`로 기술 검증 (읽기 전용, Next 로컬 문서·Context7 근거) → 수정 요청은 다시 `prd-generator`에 반영
 
+## Notion 작업 흐름
+- 처음 연결: `/notion:setup [DB ID]` — 토큰·통합 공유·data source 속성 점검 (토큰 값은 출력하지 않음)
+- 전체 흐름: `/notion:setup` → `prd-generator` → `prd-validator` → (구현 전) `notion-api-docs` → (오류 시) `notion-debugger` → `vitest-writer`
+- `notion-api-docs`: Notion API·`@notionhq/client` 사용법 조사 (읽기 전용, 설치된 SDK 버전·`Notion-Version` 기준)
+- `notion-debugger`: 401/403/404/400/429, 빈 목록, 파일 URL 만료, 캐시 미반영 진단 (수정안만 제시)
+- `NOTION_TOKEN`은 서버 전용 — `NEXT_PUBLIC_` 금지, 클라이언트 컴포넌트에서 import 금지
+
 ## MCP 서버 (`.mcp.json`, project scope)
 - `next-devtools`: `npm run dev` 실행 중일 때 Next 16 내장 MCP로 빌드·런타임 오류, 라우트 진단
 - `context7`: Base UI·nuqs·TanStack Query·Zod 4·Tailwind 4 등 최신 라이브러리 문서 조회 (Next 문서는 `node_modules/next/dist/docs/` 우선)
 - `shadcn`: 레지스트리 검색·컴포넌트 추가 (`base-nova` 스타일, `asChild` 대신 `render` 규칙 유지)
+- `notion`: 공식 원격 MCP(OAuth) — 개발 중 DB 스키마 확인·샘플 데이터 작성용. 앱 런타임은 `@notionhq/client` + `NOTION_TOKEN` 사용
 - `playwright`: 헤드리스 브라우저로 UI·E2E 확인 (예: 미인증 `/dashboard` → `/login?next=...` 리다이렉트)
 - Sequential Thinking MCP는 모델 내장 확장 사고와 역할이 겹쳐 사용하지 않음
 
