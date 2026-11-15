@@ -1,6 +1,6 @@
 # 지급 요청·승인 트래커 개발 로드맵
 
-> 기준 문서: `docs/PRD.md` (prd-validator 검증 반영본) | 작성일: 2026-11-15 | 갱신일: 2026-11-15
+> 기준 문서: `docs/PRD.md` (prd-validator 검증 반영본) | 작성일: 2026-11-15 | 갱신일: 2026-11-16
 
 ## 📌 개요
 
@@ -280,7 +280,7 @@ Phase 6: T076 주문·목업 제거 ─ T079 홈 문구 / T083 문서 ─ T084 �
 | T053 | T051 화면 검증 (Notion 샘플) | E2E | F001, F002, F008, F009 | - (Playwright MCP) | T052 | S | T051 파일 시나리오 1~5 통과 |
 | T054 | 새로고침 API `POST /api/payments/refresh` 연결 | 구현 | F009 | `src/app/api/payments/refresh/route.ts`, `src/lib/api/payments.ts` | T029, T031, T049 | S | 새로고침 버튼 → `POST /api/payments/refresh` 200 → 목록 재조회 |
 | T055 | T054 Route Handler 테스트 | 테스트 | F009 | `src/app/api/payments/refresh/route.test.ts`, `src/lib/api/payments.test.ts` | T054 | S | 두 파일 `npx vitest run` 통과 |
-| T056 | T054 화면 검증 | E2E | F009 | - (Playwright MCP) | T055 | S | Notion 직접 수정 → 새로고침 버튼으로 즉시 반영 (T054 파일 시나리오 1~6) |
+| T056 | T054 화면 검증 | E2E | F009 | - (Playwright MCP) | T051, T055 | S | Notion 직접 수정 → 새로고침 버튼으로 즉시 반영 (T054 파일 시나리오 1~6) |
 | T057 | Phase 3 마무리 | 마무리 | - | - | T041~T056 | S | `/check`·`code-reviewer`(토큰 경계) 통과, 회귀 시나리오 통과 |
 
 - [ ] T041 Notion 클라이언트 — `import "server-only"`, 지연 생성 싱글톤, 토큰 로그 금지
@@ -334,7 +334,7 @@ Phase 6: T076 주문·목업 제거 ─ T079 홈 문구 / T083 문서 ─ T084 �
 | T062 | 상태 변경 호출 함수·mutation 훅 | 구현 | F003, F009 | `src/lib/api/payments.ts`, `src/hooks/use-update-payment-status.ts` | T021, T029, T060 | S | 성공 시 상세 `setQueryData` + 목록·요약 무효화, 409 시 "다른 곳에서 수정" 안내 |
 | T063 | T062 단위 테스트 | 테스트 | F003 | `src/lib/api/payments.test.ts` | T062 | S | `npx vitest run src/lib/api/payments.test.ts` 통과 (오류 메시지 매핑 케이스 추가) |
 | T064 | 처리 버튼·확인창 (승인·지급완료) | 구현(UI) | F003, F004 | `src/components/payments/payment-actions.tsx`, `src/components/payments/payment-detail.tsx` | T035, T062 | M | 요청 건 "승인", 승인 건 "지급완료" 버튼(반려는 T066), 최종·unknown은 버튼 없이 안내 문구 |
-| T065 | T064 화면 검증 | E2E | F003, F004 | - (Playwright MCP) | T064 | S | T064 파일 시나리오 1~10 통과 (샘플 데이터) |
+| T065 | T064 화면 검증 | E2E | F003, F004 | - (Playwright MCP) | T051, T064 | S | T064 파일 시나리오 1~10 통과 (샘플 데이터) |
 | T066 | 반려 사유 다이얼로그 | 구현(UI) | F003, F004 | `src/components/payments/reject-dialog.tsx`, `src/components/payments/payment-actions.tsx` | T064 | S | 공백 사유 제출 차단·오류 표시, 2000자 초과 차단, 성공 시 반려 사유 표시 |
 | T067 | T066 화면 검증 | E2E | F003, F004 | - (Playwright MCP) | T066 | S | T066 파일 시나리오 1~8 통과 (샘플 데이터) |
 | T068 | Phase 4 마무리 | 마무리 | - | - | T058~T067 | S | `/check`·`code-reviewer`(서버 측 전이 거부·쓰기 인증) 통과, 회귀 시나리오 통과 |
@@ -568,6 +568,7 @@ Phase 6: T076 주문·목업 제거 ─ T079 홈 문구 / T083 문서 ─ T084 �
 - [2026-11-15] `CLAUDE.md`·`README.md`가 주문 예시 파일(`src/lib/api/orders.ts`, `use-orders-params.ts`, `src/lib/mock/orders.ts`)을 참조 → T083에서 교체
 - [2026-11-15] (신규 확인) `node_modules`가 설치되어 있지 않음 → `node_modules/next/dist/docs/`가 없어 T002 전에 T001 `npm install` 필수
 - [2026-11-15] (신규 확인) `server-only` 패키지 미설치, 현재 코드에 `server-only` 사용처 없음(`session.ts`는 `node:crypto`로만 서버 전용) → T001에서 설치
+- [2026-11-16] (의존성 보완) T056·T065 선행 작업에 T051 추가 — 두 E2E는 Notion 샘플 데이터 전제인데 T051 전에는 목록·상세가 목업(`data.ts`)을 사용. 특히 T058은 Notion 저장소를 직접 쓰므로 T051 전 상세에서 처리하면 목업 ID로 Notion 쓰기를 시도해 404
 - [2026-11-15] (신규 결정) 도메인 타입 파일을 `src/lib/payments.ts`가 아닌 `src/lib/payments/types.ts`로 둠 (같은 이름의 파일·폴더 공존 회피), 조회 조건 스키마는 `src/lib/validations/payments-query.ts`
 
 ### 로드맵 개정 이력
