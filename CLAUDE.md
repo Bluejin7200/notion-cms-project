@@ -11,6 +11,12 @@ Next.js 16 (App Router) + React 19 스타터킷. 외부 백엔드 없이 Route H
 - Next.js 16은 학습 데이터와 API가 다르다. 코드 작성 전 `node_modules/next/dist/docs/`의 해당 가이드를 확인할 것 (AGENTS.md)
 - 전역 CLAUDE.md에는 Next.js 15로 되어 있으나 이 프로젝트는 **Next.js 16.3.8**
 
+## Project Context
+
+- PRD 문서: @docs/PRD.md
+- 개발 로드맵: `docs/ROADMAP.md` — 상시 로드하지 않음. 구현 작업 전에 읽고 `🔜 다음` 작업부터 진행
+- 작업 명세: `docs/tasks/T0XX-*.md` — 진행할 작업의 파일만 열어 구현 단계·완료 기준·테스트 체크리스트를 따름
+
 ## 명령어
 
 ```bash
@@ -68,10 +74,12 @@ npx shadcn@latest add <이름>             # shadcn 컴포넌트 추가
 ## PRD 작성 흐름
 - `prd-generator` 에이전트로 `docs/PRD.md` 작성 (기존 라우트·인증·메뉴 기준, 데이터 모델은 Notion 데이터베이스 속성)
 - 이어서 `prd-validator`로 기술 검증 (읽기 전용, Next 로컬 문서·Context7 근거) → 수정 요청은 다시 `prd-generator`에 반영
+- 검증이 끝나면 `roadmap-generator`로 `docs/ROADMAP.md`와 작업별 명세 `docs/tasks/T0XX-*.md` 작성 (기능 ID ↔ 작업 매핑, 의존성 기반 Phase 구분, 기존 코드 대조, 구현마다 Vitest·Playwright MCP 검증 작업)
+- 구현은 `ROADMAP.md`의 "개발 워크플로우"를 따른다: `🔜 다음` 작업 파일 열기 → 구현 → Vitest·Playwright 검증 → 작업 파일 변경 요약 → 로드맵 ✅ 갱신 → 작업마다 멈추고 보고
 
 ## Notion 작업 흐름
 - 처음 연결: `/notion:setup [DB ID]` — 토큰·통합 공유·data source 속성 점검 (토큰 값은 출력하지 않음)
-- 전체 흐름: `/notion:setup` → `prd-generator` → `prd-validator` → (구현 전) `notion-api-docs` → (오류 시) `notion-debugger` → `vitest-writer`
+- 전체 흐름: `/notion:setup` → `prd-generator` → `prd-validator` → `roadmap-generator` → (구현 전) `notion-api-docs` → (오류 시) `notion-debugger` → `vitest-writer`
 - `notion-api-docs`: Notion API·`@notionhq/client` 사용법 조사 (읽기 전용, 설치된 SDK 버전·`Notion-Version` 기준)
 - `notion-debugger`: 401/403/404/400/429, 빈 목록, 파일 URL 만료, 캐시 미반영 진단 (수정안만 제시)
 - `NOTION_TOKEN`은 서버 전용 — `NEXT_PUBLIC_` 금지, 클라이언트 컴포넌트에서 import 금지
