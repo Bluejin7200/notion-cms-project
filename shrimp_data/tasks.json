@@ -861,20 +861,20 @@
       "status": "pending",
       "dependencies": [
         {
-          "taskId": "[P2] T029+T030 클라이언트 호출 함수·URL 조건 훅"
+          "taskId": "6e24cda3-2c3e-41dc-ace3-9e2db9a3b8f7"
         },
         {
-          "taskId": "[P2] T031+T032 목록 페이지 셸·툴바·상태/연체 배지"
+          "taskId": "e784766f-8ecb-429b-9075-bb8dd5bdd4fd"
         },
         {
-          "taskId": "[P3] T049+T050 목록·집계용 60초 태그 캐시"
+          "taskId": "6be933aa-0925-41d5-8dec-a2518068d618"
         },
         {
-          "taskId": "[P3] T051+T052+T053 목업 → Notion 데이터 소스 교체"
+          "taskId": "40c73182-5211-4a7a-bc4d-e9e135cd3e84"
         }
       ],
       "createdAt": "2026-11-15T16:48:16.713Z",
-      "updatedAt": "2026-11-15T16:56:29.175Z",
+      "updatedAt": "2026-11-15T17:01:19.146Z",
       "relatedFiles": [
         {
           "path": "src/app/api/payments/refresh/route.ts",
@@ -1015,17 +1015,17 @@
       "status": "pending",
       "dependencies": [
         {
-          "taskId": "[P2] T035+T036 상세 페이지(읽기 전용)"
+          "taskId": "f3d985e3-4f77-498d-95eb-d12639ecbade"
         },
         {
-          "taskId": "[P4] T062+T063 상태 변경 호출 함수·mutation 훅"
+          "taskId": "29eb93a0-0f77-45bb-a479-171e500f78ec"
         },
         {
-          "taskId": "[P3] T051+T052+T053 목업 → Notion 데이터 소스 교체"
+          "taskId": "40c73182-5211-4a7a-bc4d-e9e135cd3e84"
         }
       ],
       "createdAt": "2026-11-15T16:48:36.018Z",
-      "updatedAt": "2026-11-15T16:56:29.250Z",
+      "updatedAt": "2026-11-15T17:01:19.292Z",
       "relatedFiles": [
         {
           "path": "src/components/payments/payment-actions.tsx",
